@@ -31,7 +31,8 @@ function calculateLimit() {
     const right = evaluate(functionInput.value, { x: xValue.value + h });
 
     const limit = (left + right) / 2;
-    result.value = `El límite aproximado de f(x) en x=${xValue.value} es: ${limit}`;
+const roundedLimit = Math.round(limit * 10000) / 10000; // 4 decimales
+result.value = `El límite aproximado de f(x) en x=${xValue.value} es: ${roundedLimit}`;
   } catch {
     result.value = "⚠️ La función no es válida. Revisa la sintaxis.";
   }
@@ -80,38 +81,44 @@ const chartOptions = {
 </script>
 
 <template>
-  <div class="p-6 max-w-2xl mx-auto bg-white shadow rounded-2xl">
-    <h1 class="text-xl font-bold mb-4">Calculadora de Límites y Gráfica</h1>
+ <div class="p-4 sm:p-6 max-w-full sm:max-w-2xl mx-auto bg-white shadow rounded-2xl">
+  <h1 class="text-lg sm:text-xl font-bold mb-4 text-center sm:text-left">Calculadora de Límites y Gráfica</h1>
 
-    <label class="block mb-2">Función f(x):</label>
-    <input
-      v-model="functionInput"
-      type="text"
-      class="w-full border p-2 rounded mb-4"
-      placeholder="Ejemplo: x^2 + 2x - 1"
-    />
+  <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
+    <div class="flex-1">
+      <label class="block mb-1">Función f(x):</label>
+      <input
+        v-model="functionInput"
+        type="text"
+        class="w-full border p-2 rounded"
+        placeholder="Ejemplo: x^2 + 2x - 1"
+      />
+    </div>
 
-    <label class="block mb-2">Valor de x:</label>
-    <input
-      v-model="xValue"
-      type="number"
-      class="w-full border p-2 rounded mb-4"
-    />
-
-    <button
-      @click="calculateLimit"
-      class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-    >
-      Calcular límite y graficar
-    </button>
-
-    <p class="mt-4 font-medium">{{ result }}</p>
-
-    <!-- Gráfica -->
-    <div class="mt-6">
-      <Line :data="chartData" :options="chartOptions" />
+    <div class="flex-1">
+      <label class="block mb-1">Valor de x:</label>
+      <input
+        v-model="xValue"
+        type="number"
+        class="w-full border p-2 rounded"
+      />
     </div>
   </div>
+
+  <button
+    @click="calculateLimit"
+    class="w-full sm:w-auto bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-4"
+  >
+    Calcular límite y graficar
+  </button>
+
+  <p class="mt-2 font-medium text-center sm:text-left">{{ result }}</p>
+
+  <!-- Gráfica -->
+  <div class="mt-6 w-full">
+    <Line :data="chartData" :options="chartOptions" />
+  </div>
+</div>
 </template>
 
 <style>
