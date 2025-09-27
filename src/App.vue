@@ -31,8 +31,7 @@ function calculateLimit() {
     const right = evaluate(functionInput.value, { x: xValue.value + h });
 
     const limit = (left + right) / 2;
-const roundedLimit = Math.round(limit * 10000) / 10000; // 4 decimales
-result.value = `El límite aproximado de f(x) en x=${xValue.value} es: ${roundedLimit}`;
+result.value = `El límite aproximado de f(x) en x=${xValue.value} es: ${limit}`;
   } catch {
     result.value = "⚠️ La función no es válida. Revisa la sintaxis.";
   }
@@ -81,38 +80,53 @@ const chartOptions = {
 </script>
 
 <template>
- <div class="p-4 sm:p-6 max-w-full sm:max-w-2xl mx-auto bg-white shadow rounded-2xl">
-  <h1 class="text-lg sm:text-xl font-bold mb-4 text-center sm:text-left">Calculadora de Límites y Gráfica</h1>
+ <div class="p-4 sm:p-6 max-w-full sm:max-w-2xl mx-auto bg-white shadow-lg rounded-2xl">
+  <h1 class="text-lg sm:text-xl font-bold mb-4 text-gray-800 !text-gray-800 text-center sm:text-left">
+  Calculadora de Límites y Gráfica
+</h1>
 
-  <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
+
+  <!-- Inputs -->
+  <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
     <div class="flex-1">
-      <label class="block mb-1">Función f(x):</label>
+      <label class="block mb-1 font-medium text-gray-700">Función f(x):</label>
       <input
         v-model="functionInput"
         type="text"
-        class="w-full border p-2 rounded"
+        class="w-full border border-gray-300 p-2 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none"
         placeholder="Ejemplo: x^2 + 2x - 1"
       />
     </div>
 
     <div class="flex-1">
-      <label class="block mb-1">Valor de x:</label>
+      <label class="block mb-1 font-medium text-gray-700">Valor de x:</label>
       <input
         v-model="xValue"
         type="number"
-        class="w-full border p-2 rounded"
+        class="w-full border border-gray-300 p-2 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none"
       />
     </div>
   </div>
 
-  <button
-    @click="calculateLimit"
-    class="w-full sm:w-auto bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-4"
-  >
-    Calcular límite y graficar
-  </button>
+  <!-- Botones -->
+  <div class="flex flex-col sm:flex-row gap-4 mb-4">
+    <button
+      @click="calculateLimit"
+      class="w-full sm:w-auto bg-blue-500 text-white px-6 py-3 rounded-xl shadow-md hover:bg-blue-600 hover:shadow-lg transition duration-300"
+    >
+      Calcular límite y graficar
+    </button>
 
-  <p class="mt-2 font-medium text-center sm:text-left">{{ result }}</p>
+    <button
+      @click="() => { functionInput = ''; xValue = null; result = ''; }"
+      class="w-full sm:w-auto bg-gray-200 text-gray-800 px-6 py-3 rounded-xl shadow-md hover:bg-gray-300 hover:shadow-lg transition duration-300"
+    >
+      Limpiar
+    </button>
+  </div>
+
+  <!-- Resultado -->
+  <p class="mt-2 font-medium text-gray-800 text-center sm:text-left">{{ result }}</p>
 
   <!-- Gráfica -->
   <div class="mt-6 w-full">
@@ -122,8 +136,17 @@ const chartOptions = {
 </template>
 
 <style>
+
+
 body {
-  background: black;
+  background: white !important;
   font-family: sans-serif;
+  color: #000000 !important; /* gris oscuro */
 }
+
+/* Fuerza el color de los textos principales */
+h1, h2, h3, h4, h5, h6, p, label {
+  color: #1f2937 !important; /* gris oscuro */
+}
+
 </style>
